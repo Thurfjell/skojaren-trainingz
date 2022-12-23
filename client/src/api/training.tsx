@@ -9,7 +9,7 @@ export const trainingApi = createApi({
     mode: "cors",
   }),
   endpoints: (builder) => ({
-    exercises: builder.query<Exercise[], Filter>({
+    exercises: builder.query<Exercise[], Partial<Filter>>({
       query: (filter) => ({
         url: `/exercises?${filterWithDefaultsToUrlQuery(filter)}`,
         method: "GET",
@@ -72,4 +72,5 @@ export const {
   useCreateSessionMutation,
   useSessionsQuery,
   useSessionQuery,
+  useLazySessionQuery,
 } = trainingApi;

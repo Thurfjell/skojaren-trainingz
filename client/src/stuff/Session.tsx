@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useSessionQuery } from "../api/training";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useLazySessionQuery } from "../api/training";
 import Error from "./Error";
 import SetForm from "./SetForm";
 
-type Props = {
-  sessionId: number;
-};
+export default () => {
+  const { sessionId } = useParams();
+  const [getSession, { data, isError }] = useLazySessionQuery();
 
-export default ({ sessionId }: Props) => {
-  const { isError, data } = useSessionQuery(sessionId);
+  useEffect(() => {
+    if (sessionId) {
+      getSession(parseInt(sessionId), true);
+    }
+  }, [sessionId]);
 
   const [showNewSetForm, setShowNewSetForm] = useState(false);
 
@@ -25,7 +29,13 @@ export default ({ sessionId }: Props) => {
   }
 
   if (data) {
-    content = <></>;
+    content = (
+      <>
+        {data.sets.map((set) => (
+          <>Exercise id :D {set.exerciseId}</>
+        ))}
+      </>
+    );
   }
 
   return (

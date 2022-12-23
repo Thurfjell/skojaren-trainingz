@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -79,7 +80,7 @@ error messages and formatting?
 func BuildApi(port int) *Api {
 	api := &Api{port: port}
 	api.gin = gin.Default()
-
+	api.gin.Use(cors.Default())
 	routes := api.gin.Group("/api/v1")
 
 	routes.POST("/exercises", func(ctx *gin.Context) {

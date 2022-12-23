@@ -4,7 +4,12 @@ import {
   useUpdateExerciseMutation,
 } from "../api/training";
 
-export default ({ id, description, name }: Partial<Exercise>) => {
+export default ({
+  id,
+  description,
+  name,
+  onSubmitted,
+}: Partial<Exercise> & { onSubmitted?: () => void }) => {
   const [createExercise, {}] = useCreateExerciseMutation();
   const [updateExercise, {}] = useUpdateExerciseMutation();
   const isUpdate = Boolean(id);
@@ -30,7 +35,11 @@ export default ({ id, description, name }: Partial<Exercise>) => {
       return;
     }
 
-    createExercise(data);
+    createExercise(data)
+      .unwrap()
+      .then(() => {
+        onSubmitted?.();
+      });
   };
 
   return (
