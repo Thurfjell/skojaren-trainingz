@@ -42,7 +42,7 @@ export default () => {
       {!exercises?.length && <p>No exercises set up!</p>}
       {newExerciseForm && (
         <Modal>
-          <ExerciseForm />
+          <ExerciseForm onCancel={() => setNewExerciseForm(false)} />
         </Modal>
       )}
       <button onClick={handleCreateSession} disabled={isCreating}>
